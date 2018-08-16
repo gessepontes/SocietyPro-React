@@ -10,8 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-import { mailFolderListItems, otherMailFolderListItems } from './menu';
-import Person from '../../components/person/person';
+import { mailFolderListItems, otherMailFolderListItems } from './Menu';
 
 const drawerWidth = 240;
 
@@ -118,7 +117,7 @@ class ResponsiveDrawer extends React.Component {
         </Hidden>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Person />
+          {this.props.children}
         </main>
       </div>
     );

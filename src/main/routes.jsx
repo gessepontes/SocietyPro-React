@@ -1,16 +1,16 @@
 import React from 'react'
-import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router'
+import { Switch, Route, Redirect } from 'react-router'
 
-import App from './app'
-import Dashboard from '../dashboard/dashboard'
-import BillingCycle from '../billingCycle/billingCycle'
+import Home from '../components/home/Home'
+import Persons from '../components/person/Persons'
+import Person from '../components/person/Person'
 
-export default props => (
-    <Router history={hashHistory}>
-        <Route path='/' component={App}>
-            <IndexRoute component={Dashboard} />
-            <Route path='billingCycles' component={BillingCycle} />
+export default props =>
+    <Switch>
+        <Route exact path='/' component={Home} />
+        <Route path='/persons' component={Persons} />
+        <Route path='/person' component={Person}>
+            <Route path='/person/:id' component={Person} />
         </Route>
         <Redirect from='*' to='/' />
-    </Router>
-)
+    </Switch>

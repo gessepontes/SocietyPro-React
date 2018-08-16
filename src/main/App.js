@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
-import ResponsiveDrawer from '../common/template/responsiveDrawer';
+import { BrowserRouter } from 'react-router-dom'
+
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Main from '../components/template/Main'
+import Routes from './Routes'
+
+const theme = createMuiTheme();
 
 class App extends Component {
   render() {
     return (
-      <ResponsiveDrawer />
+      <BrowserRouter>
+        <MuiThemeProvider theme={theme}>
+          <Main>
+            <Routes />
+          </Main>
+        </MuiThemeProvider>
+      </BrowserRouter>
     );
   }
 }

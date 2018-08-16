@@ -9,7 +9,7 @@ import thunk from 'redux-thunk'
 
 import './index.css';
 import App from './main/App';
-import reducers from './main/reducers'
+import reducers from './main/Reducers'
 import registerServiceWorker from './registerServiceWorker';
 
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ 

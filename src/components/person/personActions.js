@@ -2,13 +2,15 @@ import axios from 'axios'
 import { toastr } from 'react-redux-toastr'
 import { initialize } from 'redux-form'
 
-const BASE_URL = 'http://localhost:53487/api'
+import { PERSON_FETCHED, PERSON_ID_FETCHED } from './PersonConst'
+
+const BASE_URL = 'http://localhost:53486/api'
 const INITIAL_VALUES = {credits: [{}], debts: [{}]}
 
 export function getList() {
     const request = axios.get(`${BASE_URL}/pessoa`)
     return {
-        type: 'BILLING_CYCLES_FETCHED',
+        type: PERSON_FETCHED,
         payload: request
     }
 }
@@ -28,7 +30,7 @@ export function remove(values) {
 function submit(values, method) {
     return dispatch => {
         const id = values._id ? values._id : ''
-        axios[method](`${BASE_URL}/billingCycles/${id}`, values)
+        axios[method](`${BASE_URL}/pessoa/${id}`, values)
             .then(resp => {
                 toastr.success('Sucesso', 'Operação Realizada com sucesso.')
                 dispatch(init())
@@ -39,21 +41,17 @@ function submit(values, method) {
     }
 }
 
-export function showUpdate(billingCycle) {
-    return [ 
-        initialize('billingCycleForm', billingCycle)
-    ]
-}
-
-export function showDelete(billingCycle) {
-    return [ 
-        initialize('billingCycleForm', billingCycle)
-    ]
+export function showUpdate(id) {
+    const request = axios.get(`${BASE_URL}/pessoa/${id}`)
+    return {
+        type: PERSON_ID_FETCHED,
+        payload: request
+    }
 }
 
 export function init() {
     return [
         getList(),
-        initialize('billingCycleForm', INITIAL_VALUES)
+        initialize('personForm', INITIAL_VALUES)
     ]
 }

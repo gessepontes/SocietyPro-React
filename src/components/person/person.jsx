@@ -1,50 +1,80 @@
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { getList, showUpdate, showDelete } from './personActions'
+import React, { Fragment, Component } from 'react';
 
-import WorkIcon from '@material-ui/icons/Work';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import './person.css'
-import MenuButton from '../../common/template/menuButton';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { Add } from '@material-ui/icons'
 
 class Person extends Component {
+  state = {
+    open: false
+  }
 
-    componentWillMount() {
-        this.props.getList()
-    }
+  handleToggle = () => {
+    this.setState({
+      open: !this.state.open
+    })
+  }
 
-    renderRows() {
-        const list = this.props.list || []
-        return list.map(bc => (
-            <ListItem key={bc.id} dense button>
-                <Avatar>
-                    <WorkIcon />
-                </Avatar>
-                <ListItemText primary={bc.nome} secondary={bc.telefone} />
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
-                <ListItemSecondaryAction>
-                    <MenuButton />              
-                </ListItemSecondaryAction>
-            </ListItem>
-        ))
-    }
+  render() {
+    const style = {
+      margin: 0,
+      top: 'auto',
+      right: 20,
+      bottom: 20,
+      left: 'auto',
+      position: 'fixed',
+    };
 
-    render() {
-        return (
-            <div className='root'>
-                <List>
-                    {this.renderRows()}
-                </List>
-            </div>
-        );
-    }
+    const { open } = this.state
+
+    return (
+      <Fragment>
+        <Button variant="fab" color='secondary' style={style}
+          onClick={this.handleToggle} mini>
+          <Add />
+        </Button>
+
+        <Dialog
+          open={open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              To subscribe to this website, please enter your email address here. We will send
+              updates occasionally.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Email Address"
+              type="email"
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleClose} color="primary">
+              Salvar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Fragment>
+    )
+  }
 }
 
-const mapStateToProps = state => ({ list: state.person.list })
-const mapDispatchToProps = dispatch => bindActionCreators({ getList, showUpdate, showDelete }, dispatch)
-export default connect(mapStateToProps, mapDispatchToProps)(Person)
+export default (Person);
