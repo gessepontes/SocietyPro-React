@@ -12,7 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import { mailFolderListItems, otherMailFolderListItems } from './Menu';
 
-const drawerWidth = 240;
+const drawerWidth = 0;
 
 const styles = theme => ({
   root: {
@@ -37,7 +37,7 @@ const styles = theme => ({
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth,
+    width: 240,
     [theme.breakpoints.up('md')]: {
       position: 'relative',
     },
@@ -79,7 +79,6 @@ class ResponsiveDrawer extends React.Component {
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerToggle}
-              className={classes.navIconHide}
             >
               <MenuIcon />
             </IconButton>
@@ -88,7 +87,7 @@ class ResponsiveDrawer extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Hidden mdUp>
+        <Hidden>
           <Drawer
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -104,17 +103,7 @@ class ResponsiveDrawer extends React.Component {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden smDown implementation="css">
-          <Drawer
-            variant="permanent"
-            open
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
+        
         <main className={classes.content}>
           <div className={classes.toolbar} />
           {this.props.children}
