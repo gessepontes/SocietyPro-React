@@ -5,7 +5,16 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Main from '../components/template/Main'
 import Routes from './Routes'
 
-const theme = createMuiTheme();
+import teal from '@material-ui/core/colors/teal';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: teal,
+    secondary: {
+      main: '#f44336',
+    },
+  },
+});
 
 class App extends Component {
   render() {

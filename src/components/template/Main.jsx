@@ -1,121 +1,90 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Person from '@material-ui/icons/Person';
+import Flag from '@material-ui/icons/Flag';
+import People from '@material-ui/icons/People';
+import Menu from '@material-ui/icons/Menu';
+import HomeIcon  from '@material-ui/icons/Home';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Hidden from '@material-ui/core/Hidden';
-import Divider from '@material-ui/core/Divider';
-import MenuIcon from '@material-ui/icons/Menu';
-import { mailFolderListItems, otherMailFolderListItems } from './Menu';
+import Toolbar from '@material-ui/core/Toolbar';
 
-const drawerWidth = 0;
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
+
+TabContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
     width: '100%',
-  },
-  appBar: {
-    position: 'absolute',
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-  },
-  navIconHide: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: 240,
-    [theme.breakpoints.up('md')]: {
-      position: 'relative',
-    },
-  },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
+    backgroundColor: theme.palette.background.paper,
+    position: 'fixed',
+    bottom: '0',
   },
 });
 
-class ResponsiveDrawer extends React.Component {
+class ScrollableTabsButtonForce extends React.Component {
   state = {
-    mobileOpen: false,
+    value: 0,
   };
 
-  handleDrawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  handleChange = (event, value) => {
+    this.setState({ value });
   };
 
   render() {
-    const { classes, theme } = this.props;
-
-    const drawer = (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>{mailFolderListItems}</List>
-        <Divider />
-        <List>{otherMailFolderListItems}</List>
-      </div>
-    );
+    const { classes } = this.props;
+    const { value } = this.state;
 
     return (
-      <div className={classes.root}>
-        <AppBar className={classes.appBar}>
+      <div>
+        <AppBar position="static" color="primary">
           <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
-              Fdid Projetos
-            </Typography>
+            <Typography variant="title" color="inherit">
+              Fdid-Projetos
+          </Typography>
           </Toolbar>
         </AppBar>
-        <Hidden>
-          <Drawer
-            variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={this.state.mobileOpen}
-            onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
+
+        {value === 0 && <TabContainer>Item One</TabContainer>}
+        {value === 1 && <TabContainer>Item Two</TabContainer>}
+        {value === 2 && <TabContainer>Item Three</TabContainer>}
+        {value === 3 && <TabContainer>Item Four</TabContainer>}
+        {value === 4 && <TabContainer>Item Five</TabContainer>}
+
+        <div className={classes.root}>
+          <Tabs
+            value={value}
+            onChange={this.handleChange}
+            fullWidth
+            indicatorColor="primary"
+            textColor="primary"
           >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          {this.props.children}
-        </main>
+            <Tab label="Home" icon={<HomeIcon />} />
+            <Tab label="Pessoa" icon={<Person />} />
+            <Tab label="Time" icon={<Flag />} />
+            <Tab label="Jogador" icon={<People />} />
+            <Tab label="Outros" icon={<Menu />} />
+          </Tabs>
+        </div>
       </div>
     );
   }
 }
 
-ResponsiveDrawer.propTypes = {
+ScrollableTabsButtonForce.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles)(ScrollableTabsButtonForce);
